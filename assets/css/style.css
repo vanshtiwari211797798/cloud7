@@ -1,0 +1,762 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.5;
+}
+
+/* Preloader */
+#preloader {
+    position: fixed;
+    inset: 0;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Announcement bar */
+.announcement-bar {
+    background-color: #313652;
+    color: white;
+    text-align: center;
+    padding: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* Header */
+.header {
+    background-color: black;
+    color: white;
+    height: 70px;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+}
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+    padding: 0 16px;
+    height: 100%;
+}
+
+.header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+/* Left part - Mobile menu */
+.header-left {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    /* Take up equal space */
+}
+
+/* Center part - Logo */
+.header-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Remove flex-grow: 1 to ensure proper centering */
+}
+
+.logo-link {
+    display: block;
+}
+
+.logo-image {
+    height: 60px;
+    width: 149px;
+    object-fit: cover;
+}
+
+/* Right part - Icons */
+.header-right {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    /* Take up equal space */
+    justify-content: flex-end;
+    /* Align icons to the right */
+}
+
+/* Tap area for buttons */
+.tap-area {
+    padding: 8px;
+    cursor: pointer;
+    color: white;
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Search bar */
+.search-bar {
+    background-color: white;
+    padding: 16px;
+    width: 100%;
+    transition: opacity 0.3s ease-in-out;
+    display: none;
+}
+
+.search-bar.visible {
+    display: block;
+}
+
+.search-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: black;
+}
+
+/* Mobile navigation */
+.mobile-nav-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 50;
+    display: none;
+}
+
+.mobile-nav-overlay.visible {
+    display: block;
+}
+
+.mobile-nav {
+    background-color: white;
+    height: 100%;
+    width: 80%;
+    max-width: 384px;
+    padding: 20px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.mobile-nav.visible {
+    transform: translateX(0);
+}
+
+.mobile-nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.mobile-nav-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+}
+
+.mobile-nav-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: black;
+}
+
+.mobile-nav-list {
+    list-style: none;
+}
+
+.mobile-nav-item {
+    margin-bottom: 16px;
+}
+
+.mobile-nav-link {
+    display: block;
+    padding: 8px 0;
+    font-size: 18px;
+    color: black;
+    text-decoration: none;
+}
+
+.mobile-nav-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 8px 0;
+    font-size: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: black;
+    text-align: left;
+}
+
+.dropdown-content {
+    padding-left: 16px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    display: none;
+}
+
+.dropdown-content.visible {
+    display: block;
+}
+
+.dropdown-link {
+    display: block;
+    padding: 4px 0;
+    color: black;
+    text-decoration: none;
+}
+
+.mobile-nav-footer {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid #eee;
+}
+
+.account-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: black;
+    text-decoration: none;
+}
+
+/* Cart badge */
+.cart-link {
+    position: relative;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: white;
+    color: black;
+    font-size: 12px;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Floating buttons */
+.floating-button {
+    position: fixed;
+    right: 24px;
+    z-index: 50;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    animation: pulse 1.5s infinite;
+}
+
+.floating-button:hover {
+    width: auto;
+    padding: 0 16px;
+    border-radius: 24px;
+    animation: none;
+}
+
+.floating-button:hover::after {
+    content: "+91-7376676696";
+    margin-left: 8px;
+}
+
+.phone-button {
+    background-color: #760f10;
+    bottom: 85px;
+}
+
+.phone-button:hover {
+    background-color: #c03421;
+}
+
+.whatsapp-button {
+    background-color: #34af23;
+    bottom: 24px;
+}
+
+.whatsapp-button:hover {
+    background-color: #1f7a12;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Hide elements on mobile */
+@media (max-width: 768px) {
+    .hide-on-mobile {
+        display: none;
+    }
+}
+
+
+.slider-container {
+    position: relative;
+    width: 100%;
+}
+
+
+
+.slide {
+    display: none;
+}
+
+.slide img {
+    height: 500px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.arrow {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    color: black;
+    background-color: white;
+    padding: 8px 18px;
+    /* border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+            font-size: 25px; */
+    font-weight: bold;
+}
+
+.next {
+    right: 10px;
+}
+
+.prev {
+    left: 10px;
+}
+
+.caption {
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.144);
+    padding: 15px 0px;
+}
+
+
+/* best seller cards  */
+.con {
+    margin-top: 30px;
+}
+
+.product-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
+.product-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 340px;
+    height: 500px;
+    padding: 15px;
+    text-align: center;
+    position: relative;
+    /* Remove opacity and transform for visibility */
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.product-image-container {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.product-image.hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+
+.product-image-container:hover .product-image.default {
+    opacity: 0;
+}
+
+.product-image-container:hover .product-image.hover {
+    opacity: 1;
+}
+
+.discount-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: red;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    z-index: 2;
+}
+
+.wishlist-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #000000;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 2;
+    transition: color 0.3s ease;
+}
+
+.wishlist-icon.active {
+    color: red; /* Change color when active */
+}
+
+.product-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.product-rating {
+    color: gold;
+}
+
+.product-price {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: gray;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.action-buttons button {
+    background: black;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100px;
+}
+
+@media (max-width: 768px) {
+    .product-container {
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .product-card {
+        width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 480px) {
+    .product-card {
+        width: 100%;
+    }
+}
+
+
+/* Container for all videos */
+.videos-row {
+    /* height: 400px; */
+    /* background: #000; */
+    display: flex;
+    /* Use Flexbox to arrange videos in a row */
+    flex-wrap: wrap;
+    /* Allow wrapping to the next row if needed */
+    gap: 10px;
+    /* Add spacing between videos */
+    justify-content: center;
+    /* Center the videos horizontally */
+}
+
+/* Individual video container */
+.video-container {
+    flex: 1 1 calc(16.66% - 10px);
+    /* Each video takes 1/6th of the row minus gap */
+    max-width: calc(16.66% - 10px);
+    /* Limit width to 1/6th of the row */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Video styling */
+video {
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    /* Optional: Add a border for better visibility */
+}
+
+
+/* shop by category */
+/* Section styling */
+.shop-by-category {
+    padding: 40px 10px;
+    text-align: center;
+    background-color: #fcfafa;
+}
+
+.shop-by-category h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.shop-by-category p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+/* Category grid */
+.category-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.category-item {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 230px;
+    height: 450px;
+    /* Fixed width for the card */
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+    /* Add a subtle shadow transition for the card */
+    position: relative;
+    /* Required for absolute positioning of text */
+}
+
+.category-item:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    /* Add shadow on hover */
+}
+
+.category-item img {
+    width: 100%;
+    /* Fixed width for the image */
+    height: 100%;
+    /* Fixed height for the image */
+    object-fit: cover;
+    /* Ensures the image covers the container without distortion */
+    transition: transform 0.3s ease;
+    /* Add transition for image scaling */
+}
+
+.category-item:hover img {
+    transform: scale(1.1);
+    /* Scale the image up on hover */
+}
+
+.category-item h3 {
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0;
+    color: #fff;
+    /* White text color */
+    position: absolute;
+    /* Position the text absolutely */
+    bottom: 0;
+    /* Place text at the bottom */
+    left: 0;
+    /* Align text to the left */
+    right: 0;
+    /* Align text to the right */
+    background-color: rgba(0, 0, 0, 0.6);
+    /* Semi-transparent background for better readability */
+    padding: 10px;
+    /* Add padding for spacing */
+    text-align: center;
+    /* Center the text */
+}
+
+.category-item a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* include  */
+/* General styling for the gifting section */
+
+/* General styling for the gifting section */
+.gifting-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 90%;
+    /* Fixed width for the card */
+    height: 400px;
+    /* Fixed height for the card */
+    margin: 0 auto;
+}
+
+.gifting-wrapper:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Image wrapper styling */
+.gifting-image-wrapper {
+    flex: 1;
+    max-width: 70%;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 100%;
+    /* Ensure the image wrapper takes full height */
+}
+
+.gifting-image {
+    width: 100%;
+    height: 100%;
+    /* Ensure the image takes full height */
+    object-fit: cover;
+    /* Ensures the image covers the container without distortion */
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.gifting-wrapper:hover .gifting-image {
+    transform: scale(1.05);
+}
+
+/* Content wrapper styling */
+.gifting-content-wrapper {
+    flex: 1;
+    max-width: 70%;
+    height: 100%;
+    /* Ensure the content wrapper takes full height */
+    display: flex;
+    align-items: center;
+    /* Center content vertically */
+}
+
+.gifting-content-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gifting-content {
+    text-align: center;
+}
+
+.gifting-heading {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.gifting-text-wrapper p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Button styling */
+.gifting-button-wrapper {
+    margin-top: 20px;
+}
+
+.gifting-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.gifting-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
