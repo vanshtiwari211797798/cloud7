@@ -98,7 +98,7 @@
                 <li><a href="./Terms-Of-Use.php">Terms Of Use</a></li>
                 <li><a href="./Refund-Policy.php">Refund Policy</a></li>
                 <!-- <li><a href="#">Shipping Policy</a></li> -->
-                <li><a href="#">Return Your Order</a></li>
+                <li><a href="./returnorder.php">Return Your Order</a></li>
             </ul>
         </div>
 
@@ -132,7 +132,7 @@
             <h4 class="footer-heading">Follow Us</h4>
             <div class="footer-social">
                 <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.instagram.com/cloud7perfumes/?igsh=dzF5azVnZjJncnV2#" target="" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                 <a href="#" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
                 <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
             </div>

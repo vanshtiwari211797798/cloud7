@@ -4,15 +4,13 @@ include("includes/db.php");
 if (!isset($_GET['id'])) {
     header('Location:index.php');
 } else {
-    if(isset($_SESSION['email'])){
+    if (isset($_SESSION['email'])) {
         $id = mysqli_real_escape_string($conn, $_GET['id']);
         $email = $_SESSION['email'];
         $sql = "SELECT * FROM product_items WHERE id=$id";
         $data = mysqli_query($conn, $sql);
         if (mysqli_num_rows($data) > 0) {
             $res = mysqli_fetch_assoc($data);
-            // print_r($res);
-            // die();
             $product_name = $res['product_name'];
             $discount_percentage = $res['discount_percentage'];
             $sale_price = $res['sale_price'];
@@ -32,17 +30,20 @@ if (!isset($_GET['id'])) {
                         ";
                 }
             } else {
+                $delSql = "DELETE FROM wisslist WHERE shop_id='$id' AND user_email='$email'";
+                $wishList_data = mysqli_query($conn, $delSql);
                 echo "
                 <script>
-                    alert('Product allready added');
+                    alert('Wisslist Deleted Successfully');
                     window.location.href='index.php';
                 </script>
             ";
             }
         } else {
+            // here combo offer add_to_cart code
             echo "No product found";
         }
-    }else{
+    } else {
         echo "
         <script>
             alert('Please Login');

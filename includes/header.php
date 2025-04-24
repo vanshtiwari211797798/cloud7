@@ -107,10 +107,9 @@ include("includes/db.php");
                         ?>
                         <span class="cart-badge"><?= $num_rows ?></span>
                     </a>
-                    <a href="myorders.php" class="tap-area hide-on-mobile" aria-label="My Orders" id="orders-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <!-- You can use a shopping cart or any order-related icon. Here's an example using a cart icon -->
-                            <path d="M7 4V2h10v2h2v2h-1l-2.6 8.5c-.1.3-.3.5-.6.5H9.2c-.3 0-.5-.2-.6-.5L6 8H3V6h1l2.6-8.5c.1-.3.3-.5.6-.5h8.8c.3 0 .5.2.6.5L21 6h1v2h-2v2h-2l-1.6-5.5L13.6 8h-3.2L7 4zM8.5 11h7l1.4 4H7l1.4-4zM6 19c0-.6.4-1 1-1s1 .4 1 1-.4 1-1 1-1-.4-1-1zm12 0c0-.6.4-1 1-1s1 .4 1 1-.4 1-1 1-1-.4-1-1z"></path>
+                    <a href="myorders.php" class="tap-area show-on-mobile" aria-label="My Orders" id="orders-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 4V2h10v2h2v2h-1l-2.6 8.5c-.1.3-.3.5-.6.5H9.2c-.3 0-.5-.2-.6-.5L6 8H3V6h1l2.6-8.5c.1-.3.3-.5.6-.5h8.8c.3 0 .5.2.6.5L21 6h1v2h-2v2h-2l-1.6-5.5L13.6 8h-3.2L7 4zM8.5 11h7l1.4 4H7l1.4-4zM6 19c0-.6.4-1 1-1s1 .4 1 1-.4 1-1 1-1-.4-1-1zm12 0c0-.6.4-1 1-1s1 .4 1 1-.4 1-1 1-1-.4-1-1z" fill="currentColor"></path>
                         </svg>
                     </a>
                 </div>

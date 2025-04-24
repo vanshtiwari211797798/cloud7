@@ -3,20 +3,21 @@ session_start();
 ob_start();
 include("includes/db.php");
 include 'includes/header.php';
-$coupon_code='';
+$coupon_code = '';
 if (!isset($_SESSION['email'])) {
     header('Location:includes/authentication/login.php');
     exit();
 }
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $coupon_code = $_POST['coupon_code'];
-    $fetch_cpn = "SELECT * FROM coupon WHERE coupon_code='$coupon_code'";
-    $cpn_data = mysqli_query($conn, $fetch_cpn);
-    if (mysqli_num_rows($cpn_data) == 1) {
-        $recordCpn = mysqli_fetch_assoc($cpn_data);
-        $coupon_off = $recordCpn['coupon_off'];
-    }
-}
+$quantityIs = isset($_GET['quantityIs']) ? $_GET['quantityIs'] : 1;
+// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+//     $coupon_code = $_POST['coupon_code'];
+//     $fetch_cpn = "SELECT * FROM coupon WHERE coupon_code='$coupon_code'";
+//     $cpn_data = mysqli_query($conn, $fetch_cpn);
+//     if (mysqli_num_rows($cpn_data) == 1) {
+//         $recordCpn = mysqli_fetch_assoc($cpn_data);
+//         $coupon_off = $recordCpn['coupon_off'];
+//     }
+// }
 
 if (!isset($_GET['id'])) {
     header('Location:index.php');
@@ -40,14 +41,27 @@ if (!isset($_GET['id'])) {
 
 ?>
 
-<?php
-$sql = "SELECT * FROM top_offer";
-$data = mysqli_query($conn, $sql);
-if (mysqli_num_rows($data) > 0) {
-    $top_offer_record = mysqli_fetch_assoc($data);
-}
 
+<?php
+
+
+
+$fetchCpn = "SELECT peice,off FROM top_offer ORDER BY id DESC LIMIT 1";
+$fetDetailCpn = mysqli_query($conn, $fetchCpn);
+$cpnRecord = mysqli_fetch_assoc($fetDetailCpn);
+$peice = isset($cpnRecord['peice']) ? $cpnRecord['peice'] : '';
+$off = isset($cpnRecord['off']) ? $cpnRecord['off'] : '';
+// echo $peice . "<br/>", $off;
 ?>
+
+<!-- <?php
+        $sql = "SELECT * FROM top_offer";
+        $data = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($data) > 0) {
+            $top_offer_record = mysqli_fetch_assoc($data);
+        }
+
+        ?> -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -331,19 +345,19 @@ if (mysqli_num_rows($data) > 0) {
                 <div class="product-details">
                     <div class="product-header">
                         <h1 class="product-title"><?= $res['product_name'] ?></h1>
-                        <p class="product-size"><?= $res['quantity'] ?></p>
+                        <p class="product-size"><?= $res['quantity'] ?> ML</p>
                     </div>
 
                     <div class="product-price">
                         <span class="current-price">₹ <?= $res['sale_price'] ?></span>
                         <span class="original-price">₹ <?= $res['product_price'] ?></span>
-                        <span class="discount"><?= $res['discount_percentage'] ?>%</span>
+                        <span class="discount"><?= $res['discount_percentage'] ?>% OFF</span>
                     </div>
 
                     <p class="product-description"><?= $res['product_discription'] ?>.</p>
 
                     <!-- Quantity Selector -->
-                    <div class="quantity-container">
+                    <!-- <div class="quantity-container">
                         <p class="quantity-label">Product quantity</p>
 
 
@@ -365,20 +379,20 @@ if (mysqli_num_rows($data) > 0) {
                                 </svg>
                             </button>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- coupon code -->
-                    <form action="" method="post">
+                    <!-- <form action="" method="post">
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="exampleInputFile" style="color: #15803d;">Before select quantity, apply coupon code and get off</label><br>
                                 <input type="text" style="padding: 10px 30px 10px 3px;" class="form-control" placeholder="Enter coupon code"
-                                    id="exampleInputFile" name="coupon_code" value="<?=$coupon_code?>" <?=$coupon_code ? 'readonly' : ''?>>
+                                    id="exampleInputFile" name="coupon_code" value="<?= $coupon_code ?>" <?= $coupon_code ? 'readonly' : '' ?>>
                             </div>
                             <button type="submit" class="btn btn-primary" style="margin-top: 15px; padding:10px 45px; cursor:pointer; ">Apply</button>
 
                         </div>
-                    </form>
+                    </form> -->
 
                     <!-- User Details Modal -->
                     <style>
@@ -455,7 +469,7 @@ if (mysqli_num_rows($data) > 0) {
                     <div class="modal-overlay" id="modalOverlay"></div>
 
                     <!-- User Details Form -->
-                    <div id="userDetailsModal">
+                    <!-- <div id="userDetailsModal">
                         <label>Name:</label>
                         <input type="text" value="<?= $userName ?>" id="user-name" readonly>
 
@@ -469,15 +483,58 @@ if (mysqli_num_rows($data) > 0) {
                         <textarea id="user-address" readonly><?= $userAdd ?></textarea>
 
                         <button id="proceed-payment">Proceed to Payment</button>
-                    </div>
+                    </div> -->
 
 
                     <!-- Buy Now Button -->
                     <!-- <button class="buy-now-btn">Buy Now</button>
                     <button class="" id="add_cart">Add Cart</button> -->
+                    <!-- <div class="quantity-container">
+                        <p class="quantity-label">Product quantity</p> -->
+
+                    <!-- 
+                        <div class="quantity-selector">
+                            <button id="decrease-btn" class="quantity-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </button>
+                            <input type="text" id="quantity-input" value="1" class="quantity-input">
+                            <button id="increase-btn" class="quantity-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </button>
+                        </div> -->
+                    <!-- </div> -->
+
+                    <div class="quantity-selector">
+                        <button id="decrease-btn" class="quantity-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                        </button>
+                        <input type="text" id="quantity-input" value="<?= $quantityIs ?>" class="quantity-input">
+                        <button id="increase-btn" class="quantity-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                        </button>
+                    </div>
                     <div class="action-buttons">
-                        <button class="buy-now-btn">Buy Now</button>
-                        <button class="add-to-cart-btn" id="add_cart">Add to Cart</button>
+                        <!-- <button class="buy-now-btn">Buy Now</button> -->
+
+                        <button class="add-to-cart-btn" id="add_cart">Add/Update to Cart</button>
                     </div>
 
 
@@ -531,10 +588,75 @@ if (mysqli_num_rows($data) > 0) {
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
+    <div class="con">
+        <h2 style="text-align:center;">Recomanded Products</h2>
+        <div class="product-container">
+            <?php
+            $sql = "SELECT * FROM product_items ORDER BY id DESC LIMIT 3";
+            $data = mysqli_query($conn, $sql);
+            if (mysqli_num_rows($data) > 0) {
+                while ($record = mysqli_fetch_assoc($data)) {
 
+
+            ?>
+                    <div class="product-card" onclick="navigateBuyPage(<?= $record['id'] ?>)" style="cursor: pointer;">
+                        <div class="discount-badge"><?= $record['discount_percentage'] ?>% OFF</div>
+                        <!-- Wishlist Icon -->
+
+                        <a href="add_wishlist.php?id=<?= $record['id'] ?>"><i style="color: blue;" class="wishlist-icon fas fa-heart"></i></a>
+
+                        <div class="product-image-container">
+                            <img class="product-image default" src="admin/products_uploads/<?= $record['primary_image_url'] ?>">
+                            <img class="product-image hover" src="admin/products_uploads/<?= $record['secondary_image_url'] ?>">
+                        </div>
+                        <div class="product-title"><?= $record['product_name'] ?></div>
+
+                        <div class="product-rating"><?php
+
+                                                    if ($record['rating'] >= 1 && $record['rating'] < 2) {
+                                                        echo "★";
+                                                    } elseif ($record['rating'] >= 2 && $record['rating'] < 3) {
+                                                        echo "★★";
+                                                    } elseif ($record['rating'] >= 3 && $record['rating'] < 4) {
+                                                        echo "★★★";
+                                                    } elseif ($record['rating'] >= 4 && $record['rating'] < 5) {
+                                                        echo "★★★★";
+                                                    } elseif ($record['rating'] >= 5 && $record['rating'] < 6) {
+                                                        echo "★★★★★";
+                                                    } else {
+                                                        echo "No Rating";
+                                                    }
+
+                                                    ?>
+
+                        </div>
+                        <div class="product-price">₹<?= $record['sale_price'] ?> <span class="original-price">₹<?= $record['product_price'] ?></span> <span class="discount"><?= $record['discount_percentage'] ?>%</span> </div>
+                        <div class="action-buttons">
+                            <a href="single-product.php?id=<?= $record['id'] ?>"><button>View</button></a>
+                            <!-- <a href="add_cart.php?product_id=<?= $record['id'] ?>"><button>Add Cart</button></a> -->
+                        </div>
+                    </div>
+
+            <?php
+                }
+            } else {
+                echo "No Any  Product";
+            }
+            ?>
+
+
+
+        </div>
+    </div>
+    <script>
+        const navigateBuyPage = (id) => {
+            window.location.href = `single-product.php?id=${id}`;
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 
@@ -558,119 +680,173 @@ if (mysqli_num_rows($data) > 0) {
             });
         });
 
-        // Quantity selector functionality
-        const decreaseBtn = document.getElementById("decrease-btn");
-        const increaseBtn = document.getElementById("increase-btn");
-        const quantityInput = document.getElementById("quantity-input");
+        // quantitu increment
+        document.querySelector("#increase-btn").addEventListener("click", function() {
 
-        const currentPriceEl = document.querySelector(".current-price");
-        const originalPriceEl = document.querySelector(".original-price");
+            let valueInc = Number(document.getElementById("quantity-input").value);
+            if (valueInc <= 9) {
+                document.getElementById("quantity-input").value = valueInc + 1;
+            } else {
+                alert("Only 10 quntity can select at once");
+            }
+        })
 
-        // Fetch initial prices and offer data
-        const baseSalePrice = parseFloat("<?= $res['sale_price'] ?>");
-        const baseOriginalPrice = parseFloat("<?= $res['product_price'] ?>");
+        // quantity decrement
+        document.querySelector("#decrease-btn").addEventListener("click", function() {
 
-        // Fetch the offer data from PHP
-        const offerQuantity = <?= isset($top_offer_record['peice']) ? $top_offer_record['peice'] : 'null' ?>;
-        const offerDiscountPercentage = <?= isset($top_offer_record['off']) ? $top_offer_record['off'] : 'null' ?>;
+            let valueInc = Number(document.getElementById("quantity-input").value);
+            if (valueInc > 1) {
+                document.getElementById("quantity-input").value = valueInc - 1;
+            } else {
+                alert("Minimum 1 quntity is required");
+            }
+        })
 
-        // Fetch the coupon discount data from PHP
-        const couponDiscount = <?= isset($coupon_off) ? $coupon_off : 'null' ?>; // This is the coupon discount value in percentage
+        // add to cart functionality
+        document.querySelector("#add_cart").addEventListener("click", function() {
+            let product_id = '<?= $res['id'] ?>';
+            let quantity = Number(document.getElementById("quantity-input").value);
+            let sale_price = parseFloat('<?= $res['sale_price'] ?>');
+            let product_price = parseFloat('<?= $res['product_price'] ?>');
 
-        // Update price function
-        function updatePrice(quantity) {
-            let newSalePrice = (baseSalePrice * quantity).toFixed(2);
-            let newOriginalPrice = (baseOriginalPrice * quantity).toFixed(2);
+            let main_sale_price = sale_price * quantity;
+            let main_product_price = product_price * quantity;
 
-            // Apply offer discount if offerQuantity is defined and quantity matches
-            if (offerQuantity !== null && quantity === offerQuantity) {
-                const discountAmount = (newSalePrice * offerDiscountPercentage / 100).toFixed(2);
-                newSalePrice = (newSalePrice - discountAmount).toFixed(2);
+            // ✅ PHP values safely passed with default fallback
+            let peice = parseInt('<?= isset($peice) ? $peice : 0 ?>') || 0;
+            let off = parseFloat('<?= isset($off) ? $off : 0 ?>') || 0;
+
+            // 🟢 Apply discount only if quantity matches the "peice"
+            if (peice > 0 && quantity === peice) {
+                let discountAmount = (main_sale_price * off) / 100;
+                main_sale_price = main_sale_price - discountAmount;
             }
 
-            // Apply coupon discount if couponDiscount is defined
-            if (couponDiscount !== null) {
-                const couponDiscountAmount = (newSalePrice * couponDiscount / 100).toFixed(2);
-                newSalePrice = (newSalePrice - couponDiscountAmount).toFixed(2);
-            }
-
-            // Display updated prices
-            currentPriceEl.textContent = `₹ ${newSalePrice}`;
-            originalPriceEl.textContent = `₹ ${newOriginalPrice}`;
-        }
-
-        // Increase quantity
-        increaseBtn.addEventListener("click", function() {
-            let quantity = parseInt(quantityInput.value);
-            if (quantity < 10) {
-                quantity++;
-                quantityInput.value = quantity;
-                updatePrice(quantity);
-            }
-        });
-
-        // Decrease quantity
-        decreaseBtn.addEventListener("click", function() {
-            let quantity = parseInt(quantityInput.value);
-            if (quantity > 1) { // Prevent going below 1
-                quantity--;
-                quantityInput.value = quantity;
-                updatePrice(quantity);
-            }
-        });
-
-        // Initial price setup
-        updatePrice(parseInt(quantityInput.value));
-    });
-
-
-
-
-
-    document.addEventListener("DOMContentLoaded", function() {
-        // Add to Cart button functionality
-        const addToCartBtn = document.getElementById("add_cart");
-
-        addToCartBtn.addEventListener("click", function() {
-            let productId = "<?= $res['id'] ?>"; // Product ID
-            let quantity = document.getElementById("quantity-input").value; // Quantity
-            let salePrice = document.querySelector(".current-price").textContent.replace("₹", "").trim(); // Sale price
-            let originalPrice = document.querySelector(".original-price").textContent.replace("₹", "").trim(); // Original price
-
-            // Data to send as query parameters
             let cartData = new URLSearchParams({
-                product_id: productId,
+                product_id: product_id,
                 quantity: quantity,
-                sale_price: salePrice,
-                original_price: originalPrice
+                sale_price: main_sale_price.toFixed(2),
+                original_price: main_product_price.toFixed(2)
             }).toString();
 
-            // Send data through URL
-            let url = `add_cart.php?${cartData}`;
-            window.location.href = url; // Redirect to the cart page
-
-
-
-
-            // Send AJAX request
-            // fetch("cart.php", {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type": "application/json"
-            //     },
-            //     body: JSON.stringify(cartData)
-            // })
-            // .then(response => response.json())
-            // .then(data => {
-            //     if (data.success) {
-            //         alert("Product added to cart successfully!");
-            //     } else {
-            //         alert("Failed to add product to cart.");
-            //     }
-            // })
-            // .catch(error => console.error("Error:", error));
+            window.location.href = `add_cart.php?${cartData}`;
         });
+
+
+
+        // // Quantity selector functionality
+        // const decreaseBtn = document.getElementById("decrease-btn");
+        // const increaseBtn = document.getElementById("increase-btn");
+        // const quantityInput = document.getElementById("quantity-input");
+
+        // const currentPriceEl = document.querySelector(".current-price");
+        // const originalPriceEl = document.querySelector(".original-price");
+
+        // // Fetch initial prices and offer data
+        // const baseSalePrice = parseFloat("<?= $res['sale_price'] ?>");
+        // const baseOriginalPrice = parseFloat("<?= $res['product_price'] ?>");
+
+        // // Fetch the offer data from PHP
+        // const offerQuantity = <?= isset($top_offer_record['peice']) ? $top_offer_record['peice'] : 'null' ?>;
+        // const offerDiscountPercentage = <?= isset($top_offer_record['off']) ? $top_offer_record['off'] : 'null' ?>;
+
+        // // Fetch the coupon discount data from PHP
+        // const couponDiscount = <?= isset($coupon_off) ? $coupon_off : 'null' ?>; // This is the coupon discount value in percentage
+
+        // // Update price function
+        // function updatePrice(quantity) {
+        //     let newSalePrice = (baseSalePrice * quantity).toFixed(2);
+        //     let newOriginalPrice = (baseOriginalPrice * quantity).toFixed(2);
+
+        //     // Apply offer discount if offerQuantity is defined and quantity matches
+        //     if (offerQuantity !== null && quantity === offerQuantity) {
+        //         const discountAmount = (newSalePrice * offerDiscountPercentage / 100).toFixed(2);
+        //         newSalePrice = (newSalePrice - discountAmount).toFixed(2);
+        //     }
+
+        //     // Apply coupon discount if couponDiscount is defined
+        //     if (couponDiscount !== null) {
+        //         const couponDiscountAmount = (newSalePrice * couponDiscount / 100).toFixed(2);
+        //         newSalePrice = (newSalePrice - couponDiscountAmount).toFixed(2);
+        //     }
+
+        //     // Display updated prices
+        //     currentPriceEl.textContent = `₹ ${newSalePrice}`;
+        //     originalPriceEl.textContent = `₹ ${newOriginalPrice}`;
+        // }
+
+        // // Increase quantity
+        // increaseBtn.addEventListener("click", function() {
+        //     let quantity = parseInt(quantityInput.value);
+        //     if (quantity < 10) {
+        //         quantity++;
+        //         quantityInput.value = quantity;
+        //         updatePrice(quantity);
+        //     }
+        // });
+
+        // Decrease quantity
+        // decreaseBtn.addEventListener("click", function() {
+        //     let quantity = parseInt(quantityInput.value);
+        //     if (quantity > 1) { // Prevent going below 1
+        //         quantity--;
+        //         quantityInput.value = quantity;
+        //         updatePrice(quantity);
+        //     }
+        // });
+
+        // Initial price setup
+        // updatePrice(parseInt(quantityInput.value));
     });
+
+
+
+
+
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     // Add to Cart button functionality
+    //     const addToCartBtn = document.getElementById("add_cart");
+
+    //     addToCartBtn.addEventListener("click", function() {
+    //         let productId = "<?= $res['id'] ?>"; // Product ID
+    //         let quantity = document.getElementById("quantity-input").value; // Quantity
+    //         let salePrice = document.querySelector(".current-price").textContent.replace("₹", "").trim(); // Sale price
+    //         let originalPrice = document.querySelector(".original-price").textContent.replace("₹", "").trim(); // Original price
+
+    //         // Data to send as query parameters
+    //         let cartData = new URLSearchParams({
+    //             product_id: productId,
+    //             quantity: quantity,
+    //             sale_price: salePrice,
+    //             original_price: originalPrice
+    //         }).toString();
+
+    //         // Send data through URL
+    //         let url = `add_cart.php?${cartData}`;
+    //         window.location.href = url; // Redirect to the cart page
+
+
+
+
+    //         // Send AJAX request
+    //         // fetch("cart.php", {
+    //         //     method: "POST",
+    //         //     headers: {
+    //         //         "Content-Type": "application/json"
+    //         //     },
+    //         //     body: JSON.stringify(cartData)
+    //         // })
+    //         // .then(response => response.json())
+    //         // .then(data => {
+    //         //     if (data.success) {
+    //         //         alert("Product added to cart successfully!");
+    //         //     } else {
+    //         //         alert("Failed to add product to cart.");
+    //         //     }
+    //         // })
+    //         // .catch(error => console.error("Error:", error));
+    //     });
+    // });
 </script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>

@@ -166,6 +166,7 @@ if (!isset($_SESSION['email'])) {
                 <tr>
                     <td>SR NO</td>
                     <td>Image</td>
+                    <td>Prduct Name</td>
                     <td>Name</td>
                     <td>Contact</td>
                     <td>Address</td>
@@ -175,7 +176,7 @@ if (!isset($_SESSION['email'])) {
                     <td>Delivery <br> Status</td>
                     <td>Delivery <br> Date</td>
                     <td>Payment <br> Id</td>
-                    <td>Re Order</td>
+                    <!-- <td>Re Order</td> -->
                 </tr>
             </thead>
             <tbody>
@@ -196,6 +197,7 @@ if (!isset($_SESSION['email'])) {
                         <tr> <!-- TR tag should be inside the loop -->
                             <td><?= $sr++ ?></td>
                             <td><img src="admin/products_uploads/<?= $res['primary_image_url'] ?>" alt="<?= $res['product_name'] ?>" style="width: 50px; height: auto;"></td> <!-- Display product image -->
+                            <td><?= $res['product_name'] ?></td>
                             <td><?= $res['user_name'] ?></td>
                             <td><?= $res['user_contact'] ?></td>
                             <td><?= $res['user_address'] ?></td>
@@ -205,7 +207,7 @@ if (!isset($_SESSION['email'])) {
                             <td><?= $res['delivery_status'] ?></td>
                             <td><?= $res['delivery_date'] ?></td>
                             <td><?= $res['payment_id'] ?></td>
-                            <td><a href="single-product.php?id=<?=$res['product_id']?>" style="text-decoration: none;">Re Order</a></td>
+                            <!-- <td><a href="single-product.php?id=<?=$res['product_id']?>" style="text-decoration: none;">Re Order</a></td> -->
                         </tr> <!-- TR tag closes inside the loop -->
                 <?php
                     }

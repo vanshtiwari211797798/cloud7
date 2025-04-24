@@ -77,7 +77,7 @@
         </ul>
 
         <h2>Wrong Item Delivered</h2>
-        <p>If a wrong product has been delivered or is missing, raise a replacement request within 7 days at <a href="mailto:cs@bluenectar.co.in">cs@bluenectar.co.in</a> or on WhatsApp/Calls at 9999519750 with the following details:</p>
+        <p>If a wrong product has been delivered or is missing, raise a replacement request within 7 days at <a href="mailto:cloud7perfumes@gmail.com">cloud7perfumes@gmail.com</a> or on WhatsApp/Calls at 7376676696 with the following details:</p>
         <ul>
             <li>Order ID</li>
             <li>Invoice</li>
@@ -93,7 +93,7 @@
         </ul>
 
         <h2>Product Concerns</h2>
-        <p>If you have a complaint about product quality, email <a href="mailto:cs@bluenectar.co.in">cs@bluenectar.co.in</a> or call/WhatsApp 9999519750 within 7 days with the following details:</p>
+        <p>If you have a complaint about product quality, email <a href="mailto:cloud7perfumes@gmail.com">cloud7perfumes@gmail.com</a> or call/WhatsApp 7376676696 within 7 days with the following details:</p>
         <ul>
             <li>Order ID</li>
             <li>Invoice</li>
@@ -101,7 +101,7 @@
         </ul>
 
         <h2>Order Cancellation</h2>
-        <p>You can cancel an order within 5 hours of placing it by contacting <a href="mailto:cs@bluenectar.co.in">cs@bluenectar.co.in</a> or calling/WhatsApp at 9999519750 (10:00 AM to 6:00 PM). Orders cannot be canceled once dispatched.</p>
+        <p>You can cancel an order within 5 hours of placing it by contacting <a href="mailto:cloud7perfumes@gmail.com">cloud7perfumes@gmail.com</a> or calling/WhatsApp at 7376676696 (10:00 AM to 6:00 PM). Orders cannot be canceled once dispatched.</p>
         
         <p>If you refuse delivery, the order will not be returned once delivered.</p>
         

@@ -7,20 +7,23 @@ if (isset($_GET['order_id'])) {
     $orderId = intval($_GET['order_id']);
 
     // Fetch order details from the database
-    $sql = "SELECT * FROM orders WHERE order_id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('i', $orderId);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $sql = "
+    SELECT o.*, p.product_name 
+    FROM orders o 
+    LEFT JOIN product_items p ON o.product_id = p.id 
+    WHERE o.order_id = ?
+";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param('i', $orderId);
+$stmt->execute();
+$result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        $order = $result->fetch_assoc();
-    } else {
-        die("Order not found.");
-    }
+if ($result->num_rows > 0) {
+    $order = $result->fetch_assoc();
+    $productName = $order['product_name'];
 } else {
-    die("Invalid order ID.");
-}
+    die("Order not found.");
+}}
 ?>
 
 <!DOCTYPE html>
@@ -65,7 +68,7 @@ if (isset($_GET['order_id'])) {
                     </tr>
                     <tr>
                         <th>Product Name</th>
-                        <td><?php echo htmlspecialchars($order['user_address']); ?></td>
+                        <td><?php echo htmlspecialchars($order['product_name']); ?></td>
                     </tr>
                     <tr>
                         <th>Address</th>

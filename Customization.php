@@ -1,4 +1,13 @@
-<?php include('includes/header.php'); ?>
+<?php 
+include('includes/header.php');
+include("includes/db.php");
+  $swl="SELECT * FROM customization ORDER BY id DESC LIMIT 1";
+  $data = mysqli_query($conn,$swl);
+  if(mysqli_num_rows($data)>0){
+    $res = mysqli_fetch_assoc($data);
+    // print_r($res);
+  }
+ ?>
 
 
 <style>
@@ -6,7 +15,7 @@
   #hero-section {
     position: relative;
     height: 400px;
-    background-image: url('https://quicksilvermakeovers.in/wp-content/uploads/2023/11/DSC03503.jpg');
+      background-repeat: no-repeat;
     /* Replace with your image */
     background-size: cover;
     background-position: center;
@@ -128,9 +137,9 @@
 
 
 <!-- Hero Section -->
-<section id="hero-section">
-  <div id="hero-text">Customization </div>
-  <p>Customize Your Perfumes</p>
+<section id="hero-section" style="background-image: url('admin/customization/<?= $res['photo'] ?>');">
+  <div id="hero-text"><?=$res['heading']?> </div>
+  <p><?=$res['para']?></p>
 </section>
 
 <!-- Customization Content Section -->
@@ -169,7 +178,7 @@
   <h3>Ready to Customize Your Perfume Box?</h3>
   <p>Contact us today to create a packaging solution that aligns with your brand identity and captivates your
     audience.</p>
-  <a href="tel:7007803396">Call or WhatsApp: 7007803396</a>
+  <a href="tel:7376676696">Call or WhatsApp: 7376676696</a>
 </section>
 
 

@@ -4,7 +4,7 @@ include("includes/db.php");
 if (!isset($_GET['id'])) {
     header('Location:index.php');
 } else {
-    if(isset($_SESSION['email'])){
+    if (isset($_SESSION['email'])) {
         $id = mysqli_real_escape_string($conn, $_GET['id']);
         $email = $_SESSION['email'];
         $sql = "SELECT * FROM combo_offer WHERE id=$id";
@@ -32,9 +32,11 @@ if (!isset($_GET['id'])) {
                         ";
                 }
             } else {
+                $comboWissDelete = "DELETE FROM wisslist WHERE shop_id='$id' AND user_email='$email'";
+                $wishList_data = mysqli_query($conn, $comboWissDelete);
                 echo "
                 <script>
-                    alert('Product allready added');
+                    alert('Wisslist Deleted Successfully');
                     window.location.href='index.php';
                 </script>
             ";
@@ -42,7 +44,7 @@ if (!isset($_GET['id'])) {
         } else {
             echo "No product found";
         }
-    }else{
+    } else {
         echo "
         <script>
             alert('Please Login');

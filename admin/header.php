@@ -139,6 +139,7 @@ if (!isset($_SESSION['admin_email'])) {
                     <li><a href="BestSellerPerfumes.php"><i class="fa fa-flask"></i> Add Products</a></li>
                     <li><a href="Add_combo_offer.php"><i class="fa fa-flask"></i> Add Combo offer</a></li>
                     <li><a href="add_videos.php"><i class="fa fa-flask"></i> Add Videos</a></li>
+                    <li><a href="add_customzation.php"><i class="fa fa-flask"></i> Add Customization</a></li>
                     <li><a href="add_category.php"><i class="fa fa-flask"></i> Add Category</a></li>
                     <li><a href="add_coupon.php"><i class="fa fa-flask"></i> Add Coupon</a></li>
                     <li><a href="orderhistory.php"><i class="fa fa-flask"></i> Order History</a></li>

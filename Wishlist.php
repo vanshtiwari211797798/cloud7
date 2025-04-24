@@ -157,7 +157,7 @@ if (!isset($_SESSION['email'])) {
 <body>
     <div class="wishlist-container">
         <div class="wishlist-header">
-            <i class="fas fa-heart"></i> My Wishlist
+            <i class="fas fa-heart" style="color: blue;"></i> My Wishlist
         </div>
         <div class="wishlist-items">
             <!-- Wishlist Item  -->

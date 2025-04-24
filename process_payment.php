@@ -18,6 +18,8 @@ if (isset($_GET['payment_id'])) {
               VALUES ('$product_id', '$quantity', '$sale_price', '$payment_id', '$user_name', '$user_email', '$user_contact', '$user_address', '$payment_status')";
 
     if (mysqli_query($conn, $query)) {
+        $deleteSpecificCart = "DELETE FROM mycarts WHERE product_id='$product_id' AND user_email='$user_email'";
+        mysqli_query($conn,$deleteSpecificCart);
         echo "<script>alert('Order Placed Successfully! Payment ID: $payment_id'); window.location.href='myorders.php';</script>";
     } else {
         echo "<script>alert('Order Failed! Please try again.'); </script>";
