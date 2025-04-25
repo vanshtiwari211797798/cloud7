@@ -261,6 +261,43 @@ include("includes/db.php");
     <button class="slider-btn next" onclick="slideVideos(1)">&#10095;</button>
 </div>
 
+<!-- ✅ JavaScript to control video behavior -->
+<script>
+    (() => {
+        const videos = document.querySelectorAll('.productVideo');
+
+        document.addEventListener("visibilitychange", function() {
+            videos.forEach(video => {
+                if (document.visibilityState === "hidden") {
+                    video.pause();
+                } else {
+                    video.currentTime = 0;
+                    video.play();
+                    video.muted = false;
+                }
+            });
+        });
+
+        document.addEventListener("fullscreenchange", function() {
+            if (!document.fullscreenElement) {
+                videos.forEach(video => {
+                    video.play();
+                    video.muted = true;
+                });
+            }
+        });
+
+        window.addEventListener("beforeunload", function() {
+            videos.forEach(video => {
+                video.play();
+            });
+        });
+    })();
+</script>
+
+
+
+
 <style>
     .videos-row {
         position: relative;
@@ -300,7 +337,7 @@ include("includes/db.php");
     .productVideo {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
         /* ensures the video fills the box and is cropped if needed */
         display: block;
         border-radius: 10px;
@@ -535,17 +572,21 @@ include("includes/db.php");
     }
 </script>
 
-
+<?php
+    $fetchGiftWoden = "SELECT * FROM gifting_wooden_box_perfumes ORDER BY id DESC LIMIT 1";
+    $wodData = mysqli_query($conn,$fetchGiftWoden);
+    $resData = mysqli_fetch_assoc($wodData);
+    ?>
 <div class="gifting-wrapper">
     <div class="gifting-image-wrapper">
-        <img src="./uploads/SUB_5044.JPG" alt="Gifting Wooden Box Perfume" class="gifting-image" loading="lazy">
+        <img src="gift/<?=$resData['gift_image']?>" alt="Gifting Wooden Box Perfume" class="gifting-image" loading="lazy">
     </div>
+
     <div class="gifting-content-wrapper">
         <div class="gifting-content-list">
             <div class="gifting-content text-container text--center">
-                <h3 class="gifting-heading">Our Gifting Wooden Box Perfumes</h3>
+                <h3 class="gifting-heading"><?=isset($resData['description']) ? $resData['description'] : ''?></h3>
                 <div class="gifting-text-wrapper">
-                    <p>Test</p>
                     <div class="gifting-button-wrapper">
                         <a href="Gifting.php" class="gifting-button">Indulge Now</a>
                     </div>

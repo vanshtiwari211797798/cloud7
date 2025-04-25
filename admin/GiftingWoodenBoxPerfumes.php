@@ -1,79 +1,41 @@
 <?php include('header.php'); ?>
 
 <?php
-// Check if form is submitted
+// include "db_connect.php"; // Make sure your DB connection file is included
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // File upload configuration
-    $target_dir = "../uploads/";
-    $target_file = $target_dir . basename($_FILES["giftimage"]["name"]);
-    $upload_ok = 1;
-    $image_file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-    // Check if image file is a valid image
-    $check = getimagesize($_FILES["giftimage"]["tmp_name"]);
-    if ($check !== false) {
-        $upload_ok = 1;
+    if (empty($_POST['description'])) {
+        echo "<script>alert('Category name is required');</script>";
+    } elseif (empty($_FILES['gift_image']['name'])) {
+        echo "<script>alert('Category image is required');</script>";
     } else {
-        echo "<script>alert('File is not an image.');window.location.back();</script>";
-        $upload_ok = 0;
-    }
+        $name = mysqli_real_escape_string($conn, $_POST['description']);
+        $imageName = $_FILES['gift_image']['name'];
+        $imageTmp = $_FILES['gift_image']['tmp_name'];
 
-    // Check if file already exists
-    if (file_exists($target_file)) {
-        echo "<script>alert('Sorry, image is already exist in upload folder already exists.');window.location.back();</script>";
-        $upload_ok = 0;
-    }
+        // Optional: Validate file type (allow only jpg, png, jpeg, gif)
+        $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+        $ext = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
+        if (!in_array($ext, $allowedTypes)) {
+            echo "<script>alert('Only JPG, JPEG, PNG, and GIF files are allowed');</script>";
+            exit;
+        }
 
-    // Check file size (limit: 5MB)
-    if ($_FILES["giftimage"]["size"] > 5000000) {
-        echo "<script>alert('Sorry, your file is too large.');window.location.back();</script>";
-        $upload_ok = 0;
-    }
-
-    // Allow only certain file formats
-    if (
-        $image_file_type != "jpg" &&
-        $image_file_type != "png" &&
-        $image_file_type != "jpeg" &&
-        $image_file_type != "gif"
-    ) {
-        echo "<script>alert('Sorry, only JPG, JPEG, PNG & GIF files are allowed.');window.location.back();</script>";
-        $upload_ok = 0;
-    }
-
-    // Check if $upload_ok is set to 0 by an error
-    if ($upload_ok == 0) {
-        echo "<script>alert('Sorry, your file was not uploaded.');window.location.back();</script>";
-    } else {
-        // Try to upload file
-        if (move_uploaded_file($_FILES["giftimage"]["tmp_name"], $target_file)) {
-            // Sanitize description input
-            $description = $conn->real_escape_string($_POST['paragraph']);
-
-            // Check if there is already an entry in the database
-            $check_sql = "SELECT COUNT(*) as count FROM gifting_wooden_box_perfumes";
-            $check_result = $conn->query($check_sql);
-            $row = $check_result->fetch_assoc();
-
-            if ($row['count'] > 0) {
-                echo "<script>alert('Only one entry is allowed.');window.location.href='GiftingWoodenBoxPerfumes.php';</script>";
+        // Move file
+        if (move_uploaded_file($imageTmp, "../gift/$imageName")) {
+            $sql = "INSERT INTO gifting_wooden_box_perfumes (gift_image, description) VALUES ('$imageName','$name')";
+            if (mysqli_query($conn, $sql)) {
+                echo "<script>alert(' uploaded successfully');</script>";
             } else {
-                // Insert data into the database
-                $sql = "INSERT INTO gifting_wooden_box_perfumes (gift_image, description)
-                        VALUES ('$target_file', '$description')";
-
-                if ($conn->query($sql) === TRUE) {
-                    echo "<script>alert('Gift added successfully!');window.location.href='GiftingWoodenBoxPerfumes.php'</script>";
-                } else {
-                    echo "<script>alert('Error: " . $conn->error . "');window.location.back();</script>";
-                }
+                echo "<script>alert('Database Error: " . mysqli_error($conn) . "');</script>";
             }
         } else {
-            echo "<script>alert('Sorry, there was an error uploading your file.');window.location.back();</script>";
+            echo "<script>alert('Image upload failed');</script>";
         }
     }
 }
 ?>
+
 
 <div class="content-wrapper" style="min-height: 1044px;">
     <section class="content">
@@ -89,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="exampleInputFile">File input</label>
-                                        <input type="file" id="exampleInputFile" name="giftimage"
+                                        <input type="file" id="exampleInputFile" name="gift_image"
                                             onchange="previewImage(event)">
                                         <p class="help-block">Example block-level help text here.</p>
                                     </div>
@@ -113,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <div class="form-group">
                                         <label for="exampleInputFile">Description</label>
                                         <input type="text" class="form-control" placeholder="Description"
-                                            id="exampleInputFile" name="paragraph">
+                                            id="exampleInputFile" name="description">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
