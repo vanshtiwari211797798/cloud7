@@ -120,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         while ($row = mysqli_fetch_assoc($result)) {
                                             echo "<tr>";
                                             echo "<td>" . $row['id'] . "</td>";
-                                            echo "<td><img src='../uploads/" . $row['gift_image'] . "' style='max-width: 100px; height: auto;' /></td>";
+                                            echo "<td><img src='../gift/" . $row['gift_image'] . "' style='max-width: 100px; height: auto;' /></td>";
                                             echo "<td>" . $row['description'] . "</td>";
                                             echo "<td>" . $row['created_at'] . "</td>";
                                             echo "<td>

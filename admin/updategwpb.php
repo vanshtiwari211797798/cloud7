@@ -18,7 +18,7 @@ if (isset($_POST['update'])) {
 
     // Handle file upload
     if (!empty($_FILES['gift_image']['name'])) {
-        $target_dir = "../uploads/";
+        $target_dir = "../gift/";
         $target_file = $target_dir . basename($_FILES["gift_image"]["name"]);
         move_uploaded_file($_FILES["gift_image"]["tmp_name"], $target_file);
     } else {
@@ -63,7 +63,7 @@ if (isset($_POST['update'])) {
                 <!-- Gift Image Preview -->
                 <div class="mb-3 text-center">
                     <label class="form-label"><strong>Current Gift Image:</strong></label><br>
-                    <img src="<?= $row['gift_image']; ?>" class="img-thumbnail" width="150">
+                    <img src="../gift/<?= $row['gift_image']; ?>" class="img-thumbnail" width="150">
                 </div>
 
                 <!-- Upload New Image -->
