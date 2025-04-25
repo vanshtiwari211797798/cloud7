@@ -162,7 +162,7 @@ if (!$product) {
 
                     <div class="text-center">
                         <button type="submit" name="update" class="btn btn-success px-4">Update Product</button>
-                        <a href="BestSellerPerfumes.php" class="btn btn-secondary px-4">Cancel</a>
+                        <a href="Add_combo_offer.php" class="btn btn-secondary px-4">Cancel</a>
                     </div>
 
                 </form>
