@@ -273,18 +273,25 @@ include("includes/db.php");
                 } else {
                     video.currentTime = 0;
                     video.play();
-                    video.muted = false;
+                    // Only unmute if video is fullscreen
+                    if (document.fullscreenElement === video) {
+                        video.muted = false;
+                    } else {
+                        video.muted = true;
+                    }
                 }
             });
         });
 
         document.addEventListener("fullscreenchange", function() {
-            if (!document.fullscreenElement) {
-                videos.forEach(video => {
+            videos.forEach(video => {
+                if (document.fullscreenElement === video) {
+                    video.muted = false;
+                } else {
                     video.play();
                     video.muted = true;
-                });
-            }
+                }
+            });
         });
 
         window.addEventListener("beforeunload", function() {
@@ -294,6 +301,7 @@ include("includes/db.php");
         });
     })();
 </script>
+
 
 
 
